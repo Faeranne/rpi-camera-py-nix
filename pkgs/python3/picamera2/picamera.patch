@@ -1,0 +1,96 @@
+diff --git a/picamera2/encoders/__init__.py b/picamera2/encoders/__init__.py
+index 134cbcf..6856f3e 100644
+--- a/picamera2/encoders/__init__.py
++++ b/picamera2/encoders/__init__.py
+@@ -3,7 +3,6 @@ import fcntl
+ import v4l2
+ 
+ from .encoder import Encoder, Quality
+-from .jpeg_encoder import JpegEncoder
+ from .libav_h264_encoder import LibavH264Encoder
+ from .libav_mjpeg_encoder import LibavMjpegEncoder
+ from .multi_encoder import MultiEncoder
+diff --git a/tests/codecs.py b/tests/codecs.py
+index fe841de..2d563e8 100644
+--- a/tests/codecs.py
++++ b/tests/codecs.py
+@@ -1,7 +1,7 @@
+ import time
+ 
+ from picamera2 import Picamera2
+-from picamera2.encoders import H264Encoder, JpegEncoder, MJPEGEncoder
++from picamera2.encoders import H264Encoder, MJPEGEncoder
+ from picamera2.outputs import FileOutput
+ 
+ # Check that all our encoders can be driven "by hand" and "automatically".
+@@ -52,10 +52,11 @@ do_encode_by_hand(h264_encoder, "main", "out.h264")
+ 
+ do_encode_auto(H264Encoder(), "lores", "outb.h264")
+ 
+-jpeg_encoder = JpegEncoder()  # needs RGB
+-jpeg_encoder.size = config["main"]["size"]
+-jpeg_encoder.format = config["main"]["format"]
+-jpeg_encoder.q = 50  # wants a quality parameter, not a bitrate (and no framerate)
+-do_encode_by_hand(jpeg_encoder, "main", "out2.mjpeg")
+-
+-do_encode_auto(JpegEncoder(), "main", "out2b.mjpeg")
++## Disabled due to SimpleJPEG not installing on Nix
++#jpeg_encoder = JpegEncoder()  # needs RGB
++#jpeg_encoder.size = config["main"]["size"]
++#jpeg_encoder.format = config["main"]["format"]
++#jpeg_encoder.q = 50  # wants a quality parameter, not a bitrate (and no framerate)
++#do_encode_by_hand(jpeg_encoder, "main", "out2.mjpeg")
++#
++#do_encode_auto(JpegEncoder(), "main", "out2b.mjpeg")
+diff --git a/tests/quality_check.py b/tests/quality_check.py
+index e368c16..2ff5447 100644
+--- a/tests/quality_check.py
++++ b/tests/quality_check.py
+@@ -2,7 +2,7 @@ import io
+ import time
+ 
+ from picamera2 import Picamera2
+-from picamera2.encoders import H264Encoder, JpegEncoder, MJPEGEncoder, Quality
++from picamera2.encoders import H264Encoder, MJPEGEncoder, Quality
+ from picamera2.outputs import FileOutput
+ 
+ # Check that low quality streams come out smaller than high quality ones! This is of
+@@ -36,8 +36,9 @@ print("H264Encoder: low quality", low_quality, "high quality", high_quality)
+ if (low_quality > high_quality):
+     print("Error: H264Encoder file sizes not as expected")
+ 
+-low_quality = do_encode(JpegEncoder(), Quality.VERY_LOW)
+-high_quality = do_encode(JpegEncoder(), Quality.VERY_HIGH)
+-print("JpegEncoder: low quality", low_quality, "high quality", high_quality)
+-if (low_quality > high_quality):
+-    print("Error: JpegEncoder file sizes not as expected")
++##Disabled due to SimpleJPEG not installing on Nix
++#low_quality = do_encode(JpegEncoder(), Quality.VERY_LOW)
++#high_quality = do_encode(JpegEncoder(), Quality.VERY_HIGH)
++#print("JpegEncoder: low quality", low_quality, "high quality", high_quality)
++#if (low_quality > high_quality):
++#    print("Error: JpegEncoder file sizes not as expected")
+diff --git a/tests/video_quality_generate.py b/tests/video_quality_generate.py
+index c348ca5..4da65d5 100644
+--- a/tests/video_quality_generate.py
++++ b/tests/video_quality_generate.py
+@@ -1,7 +1,7 @@
+ import time
+ 
+ from picamera2 import Picamera2
+-from picamera2.encoders import H264Encoder, JpegEncoder, MJPEGEncoder, Quality
++from picamera2.encoders import H264Encoder, MJPEGEncoder, Quality
+ from picamera2.outputs import FileOutput
+ 
+ # Not an automatic test really, just something to run to create different
+@@ -27,7 +27,8 @@ do_encode(MJPEGEncoder(), Quality.HIGH, "mjpeg_high.mjpeg")
+ do_encode(H264Encoder(), Quality.LOW, "h264_low.h264")
+ do_encode(H264Encoder(), Quality.HIGH, "h264_high.h264")
+ 
+-do_encode(JpegEncoder(), Quality.LOW, "jpeg_low.mjpeg")
+-do_encode(JpegEncoder(), Quality.HIGH, "jpeg_high.mjpeg")
++##Disabled due to SimpleJPEG not installing on Nix.
++#do_encode(JpegEncoder(), Quality.LOW, "jpeg_low.mjpeg")
++#do_encode(JpegEncoder(), Quality.HIGH, "jpeg_high.mjpeg")
+ 
+ # play with: ffplay <filename> -vf "setpts=N/30/TB"

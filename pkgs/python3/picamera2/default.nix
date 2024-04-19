@@ -8,18 +8,16 @@
   pillow,
   python-prctl,
   av,
-  libcamera,
+  pylibcamera,
   toPythonModule,
   #local packages needing overlay
   #Not using simplejpeg rn, since it doesn't package well in nix.
   pidng,
+  kmsxx,
   v4l2-python3,
   ...
 }: let
   #python-prctl doesn't currently build correctly due to nixos/nixpkgs#236443. this patches it till a proper pr can be made.
-  python-libcamera = toPythonModule (
-    libcamera.override { }
-  );
   python-prctl-fix = python-prctl.overrideAttrs {
     patchPhase = ''
       substituteInPlace test_prctl.py --replace 'sys.version[0:3]' '"cpython-%d%d" % (sys.version_info.major, sys.version_info.minor)'
@@ -42,10 +40,15 @@ in buildPythonPackage rec {
     pillow
     python-prctl-fix
     av
-    python-libcamera
+    pylibcamera
+    (kmsxx.override {withPython = true;})
 
     pidng
     v4l2-python3
+  ];
+
+  patches = [
+    ./picamera.patch
   ];
 
   doCheck = false;
