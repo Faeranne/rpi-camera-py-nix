@@ -1,0 +1,4 @@
+option('pycamera',
+        type : 'feature',
+        value : 'enabled',
+        description : 'Enable libcamera Python bindings - must be enabled')
