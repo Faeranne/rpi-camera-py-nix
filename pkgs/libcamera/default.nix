@@ -115,7 +115,12 @@ stdenv.mkDerivation rec {
     description = "An open source camera stack and framework for Linux, Android, and ChromeOS";
     homepage = "https://libcamera.org";
     license = licenses.lgpl2Plus;
-    maintainers = with maintainers; [ citadelcore ];
+    maintainers = [ {
+      email = "nina@projectmakeit.com";
+      github = "faeranne";
+      githubId = 764185;
+      name = "FaerAnne";
+    } ];
   };
 }
 
