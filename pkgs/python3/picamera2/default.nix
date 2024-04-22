@@ -8,12 +8,12 @@
   pillow,
   python-prctl,
   av,
-  pylibcamera,
   toPythonModule,
+  kmsxx,
   #local packages needing overlay
   #Not using simplejpeg rn, since it doesn't package well in nix.
+  pylibcamera,
   pidng,
-  kmsxx,
   v4l2-python3,
   ...
 }: let
@@ -47,6 +47,7 @@ in buildPythonPackage rec {
     v4l2-python3
   ];
 
+  #used to strip out any and all simplejpeg references.
   patches = [
     ./picamera.patch
   ];

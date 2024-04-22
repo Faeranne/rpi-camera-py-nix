@@ -7,18 +7,7 @@
 , meson
 , ninja
 , pkg-config
-, makeFontsConf
-, openssl
-, libdrm
-, libevent
-, libyaml
-, lttng-ust
-, gst_all_1
-, gtest
-, graphviz
-, doxygen
 , python3
-, systemd # for libudev
 #Python packages
 , jinja2
 , numpy
@@ -46,30 +35,6 @@ buildPythonPackage rec {
   };
 
   sourceRoot = ".";
-
-  buildInputs = [
-    # IPA and signing
-    #openssl
-
-    # gstreamer integration
-    #gst_all_1.gstreamer
-    #gst_all_1.gst-plugins-base
-
-    # cam integration
-    #libevent
-    #libdrm
-
-    # hotplugging
-    #systemd
-
-    # lttng tracing
-    #lttng-ust
-
-    # yamlparser
-    #libyaml
-
-    #gtest
-  ];
 
   prePatch = ''
     cp -r ${./pyproject.toml} pyproject.toml 

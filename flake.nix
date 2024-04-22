@@ -18,6 +18,7 @@
         v4l2-python3 = pkgs.python3.pkgs.callPackage ./pkgs/python3/v4l2-python3.nix { };
         pidng = pkgs.python3.pkgs.callPackage ./pkgs/python3/pidng.nix { };
         picamera2 = pkgs.python3.pkgs.callPackage ./pkgs/python3/picamera2 { inherit pylibcamera pidng v4l2-python3; };
+        default = picamera2;
       }
     );
 
