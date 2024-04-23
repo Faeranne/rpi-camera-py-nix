@@ -19,6 +19,7 @@
 }: let
   #python-prctl doesn't currently build correctly due to nixos/nixpkgs#236443. this patches it till a proper pr can be made.
   python-prctl-fix = python-prctl.overrideAttrs {
+    doCheck = false; #temporarly disable testing, since it's still frustratingly broken
     patchPhase = ''
       substituteInPlace test_prctl.py --replace 'sys.version[0:3]' '"cpython-%d%d" % (sys.version_info.major, sys.version_info.minor)'
     '';

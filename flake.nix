@@ -21,6 +21,11 @@
         default = picamera2;
       }
     );
+    overlays = forAllSystems (system: {
+      default = final: prev: {
+        inherit (self.packages.${system}) rpi-libcamera pylibcamera v4l2-python3 pidng picamera2;
+      };
+    });
 
     devShells = forAllSystems (system:
         let
