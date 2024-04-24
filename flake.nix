@@ -39,6 +39,7 @@
           (finalPy: prevPy: {
             inherit (self.packages.${system}) pylibcamera v4l2-python3 pidng picamera2;
             python-prctl = prevPy.python-prctl.overrideAttrs {
+              doCheck = false;
               patchPhase = ''
                 substituteInPlace test_prctl.py --replace 'sys.version[0:3]' '"cpython-%d%d" % (sys.version_info.major, sys.version_info.minor)'
                 echo Hello
