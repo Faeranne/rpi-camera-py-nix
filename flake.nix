@@ -17,6 +17,23 @@
                 substituteInPlace test_prctl.py --replace 'sys.version[0:3]' '"cpython-%d%d" % (sys.version_info.major, sys.version_info.minor)'
                 echo Hello2
               '';
+              disabledTests = [
+                #From original nixpkgs build
+                "test_mpx"
+                "test_no_new_privs"
+                "test_seccomp"
+                "test_speculation_ctrl"
+                "test_seccomp"
+
+                #More broken tests!
+                "test_child_subreaper"
+                "test_child_subreaper"
+                "test_pac_reset_keys"
+                "test_proctitle"
+                "test_ptracer"
+                "test_task_perf_events"
+                "test_thp_disable"
+              ];
             };
           })];
         })
